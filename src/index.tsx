@@ -11,4 +11,6 @@ class App extends React.Component {
     ]; }
 }
 
-ReactDOM.render(<App/>, document.getElementById("app"));
+const root = document.getElementById("app");
+root.removeChild(document.getElementById("no-js"));
+ReactDOM.render(<App/>, root);
