@@ -12,6 +12,7 @@ To use it, simply open your mobile web browser and navigate to [https://d1sover.
 
 - [ ] Basic dice roller implementation
 - [ ] Grid display for dice in the pool
+- [ ] Implement percentile die (for critical rolls etc)
 - [ ] Selecting dice and removing/rerolling them individually
 - [ ] Interface for adding the dice
 - [ ] Result summary

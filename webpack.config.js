@@ -71,12 +71,19 @@ module.exports = {
     },
     resolve: {
         extensions: [ '.tsx', '.ts', '.js' ],
+        modules: [resolve(__dirname), resolve(__dirname, "node_modules")]
     },
     externals: {
         "react": "React",
         "react-dom": "ReactDOM"
     },
     plugins: [].concat(htmlPlugins),
+
+    optimization: {
+        providedExports: true,
+        usedExports: true,
+        sideEffects: true
+    },
 
     devtool: isProduction ? false : "inline-source-map"
 };
