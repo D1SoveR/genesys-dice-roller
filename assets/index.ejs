@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= meta.name %></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <% Object.keys(meta).forEach(key => { %><meta name="<%= key %>" content="<%= meta[key].replace(/"/g, "'") %>">
+        <% }); %>
+        <!-- JavaScript payload -->
+        <% files.js.forEach(({ url, sri }) => {
+        const securityBit = sri ? ` integrity="${sri}"` : "";
+        const originBit = securityBit && !!url.match(/^https?/) ? ` crossorigin="anonymous"` : "";
+        %><script type="application/javascript" src="<%= url %>" defer<%= securityBit %><%= originBit %>></script>
+        <% }); %>
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>
