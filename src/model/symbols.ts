@@ -3,11 +3,11 @@
  * used for reference throughout the codebase.
  */
 const enum Symbols {
-    SUCCESS = "✔️",
-    FAILURE = "❌",
-    ADVANTAGE = "👍",
-    THREAT = "👎",
-    TRIUMPH = "😁",
-    DESPAIR = "😨"
+    SUCCESS = "s",
+    FAILURE = "f",
+    ADVANTAGE = "a",
+    THREAT = "h",
+    TRIUMPH = "t",
+    DESPAIR = "d"
 };
 export default Symbols;

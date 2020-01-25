@@ -28,6 +28,78 @@ configPartials.push({
     }
 });
 
+/* STYLING HANDLING
+ * ================
+ */
+
+configPartials.push(function() {
+
+    if (isProduction) {
+
+        const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+        return {
+            module: {
+                rules: [{
+                    test: /\.(?:le|c)ss$/,
+                    use: [MiniCssExtractPlugin.loader, {
+                        loader: "css-loader",
+                        options: { sourceMap: false }
+                    }]
+                }, {
+                    test: /\.less$/,
+                    use: [{
+                        loader: "less-loader",
+                        options: { sourceMap: false }
+                    }]
+                }]
+            },
+            resolve: {
+                extensions: [".less", ".css"]
+            },
+            plugins: [new MiniCssExtractPlugin({
+                filename: "styles-[contenthash].css"
+            })]
+        };
+
+    } else {
+
+        return {
+            module: {
+                rules: [{
+                    test: /\.(?:le|c)ss$/,
+                    use: ["style-loader", {
+                        loader: "css-loader",
+                        options: { sourceMap: true }
+                    }]
+                }, {
+                    test: /\.less$/,
+                    use: [{
+                        loader: "less-loader",
+                        options: { sourceMap: true }
+                    }]
+                }]
+            },
+            resolve: {
+                extensions: [".less", ".css"]
+            },
+            optimization: {
+                splitChunks: {
+                    cacheGroups: {
+                        styling: {
+                            name: "styling",
+                            test: /\.(?:le|c)ss$/,
+                            priority: -5
+                        }
+                    }
+                }
+            }
+        };
+
+    }
+
+}());
+
 /* HTML GENERATION CONFIG
  * ======================
  * This part of the config sets up generation of the HTML page containing
@@ -163,9 +235,9 @@ module.exports = require("webpack-merge")({
 
     mode: isProduction ? "production" : "development",
 
-    entry: "./src/index.tsx",
+    entry: ["./styles/main.less", "./src/index.tsx"],
     output: {
-        filename: `[name]${isProduction ? "-[contenthash]" : ""}.js`,
+        filename: `app${isProduction ? "-[contenthash]" : ""}.js`,
         path: resolve(__dirname, "dist")
     },
     resolve: {
