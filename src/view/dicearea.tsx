@@ -1,7 +1,11 @@
 import * as React from "react";
 import { startCase } from "lodash-es";
 
-import { AcceptedResults, Die, AbilityDie, SetbackDie } from "src/model/dice";
+import { AcceptedResults, Die, GenesysDie } from "src/model/dice";
+import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie } from "src/model/dice";
+
+type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback";
+const diceTypes: Readonly<diceTypes[]> = Object.freeze(["ability", "proficiency", "boost", "difficulty", "challenge", "setback"]);
 
 export default class DiceArea extends React.Component<any, { dice: Die<AcceptedResults>[], results: AcceptedResults[] }> {
 
@@ -10,20 +14,33 @@ export default class DiceArea extends React.Component<any, { dice: Die<AcceptedR
         this.state = { dice: [], results: [] };
     }
 
-    addAbilityDie() {
-        const { dice, results } = this.state;
-        this.setState({
-            dice: dice.concat([new AbilityDie()]),
-            results
-        });
-    }
+    addDie(type: diceTypes): void {
 
-    addSetbackDie() {
         const { dice, results } = this.state;
-        this.setState({
-            dice: dice.concat([new SetbackDie()]),
-            results
-        });
+        let newDie: GenesysDie;
+
+        switch (type) {
+            case diceTypes[0]:
+                newDie = new AbilityDie();
+                break;
+            case diceTypes[1]:
+                newDie = new ProficiencyDie();
+                break;
+            case diceTypes[2]:
+                newDie = new BoostDie();
+                break;
+            case diceTypes[3]:
+                newDie = new DifficultyDie();
+                break;
+            case diceTypes[4]:
+                newDie = new ChallengeDie();
+                break;
+            case diceTypes[5]:
+                newDie = new SetbackDie();
+                break;
+        }
+
+        this.setState({ results, dice: dice.concat([newDie])});
     }
 
     roll() {
@@ -36,9 +53,9 @@ export default class DiceArea extends React.Component<any, { dice: Die<AcceptedR
 
     render() {
 
-        const actionButtons = ["addAbilityDie", "addSetbackDie", "roll"].map((methodName: keyof DiceArea) => {
-            return <button onClick={() => this[methodName]()}>{startCase(methodName)}</button>
-        });
+        const actionButtons = diceTypes.map(diceType => <button onClick={() => this.addDie(diceType)}>{startCase(`add ${diceType} die`)}</button>);
+        actionButtons.push(<button onClick={() => this.roll()}>Roll the dice!</button>);
+
         const diceNames = this.state.dice.map(die => <th>{startCase(die.constructor.name)}</th>);
         const diceResults = this.state.results.map(result => <td>{(typeof result === "number") ? result + "" : result.join(" ")}</td>);
 

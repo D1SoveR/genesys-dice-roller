@@ -45,7 +45,6 @@ export abstract class GenesysDie extends Die<Symbols[]> {
      * assigns it to current result and returns it.
      */
     roll(): Symbols[] {
-        console.log("Rolling for ", this);
         this.currentResult = this.possibleResults[Math.floor(Math.random() * this.possibleResults.length)];
         return this.currentResult;
     }
@@ -60,9 +59,9 @@ export class AbilityDie extends GenesysDie {
         [],
         [Symbols.SUCCESS],
         [Symbols.SUCCESS],
-        [Symbols.ADVANTAGE],
-        [Symbols.ADVANTAGE],
         [Symbols.SUCCESS, Symbols.SUCCESS],
+        [Symbols.ADVANTAGE],
+        [Symbols.ADVANTAGE],
         [Symbols.SUCCESS, Symbols.ADVANTAGE],
         [Symbols.ADVANTAGE, Symbols.ADVANTAGE]
     ]
@@ -72,28 +71,70 @@ export class AbilityDie extends GenesysDie {
  * Model for the upgraded positive die, the yellow twelve-sided one.
  */
 export class ProficiencyDie extends GenesysDie {
-    possibleResults: []
+    possibleResults = [
+        [],
+        [Symbols.SUCCESS],
+        [Symbols.SUCCESS],
+        [Symbols.SUCCESS, Symbols.SUCCESS],
+        [Symbols.SUCCESS, Symbols.SUCCESS],
+        [Symbols.ADVANTAGE],
+        [Symbols.SUCCESS, Symbols.ADVANTAGE],
+        [Symbols.SUCCESS, Symbols.ADVANTAGE],
+        [Symbols.SUCCESS, Symbols.ADVANTAGE],
+        [Symbols.ADVANTAGE, Symbols.ADVANTAGE],
+        [Symbols.ADVANTAGE, Symbols.ADVANTAGE],
+        [Symbols.TRIUMPH]
+    ]
 }
 
 /**
  * Model for the circumstantial positive die, the blue six-sided one.
  */
 export class BoostDie extends GenesysDie {
-    possibleResults: []
+    possibleResults = [
+        [],
+        [],
+        [Symbols.SUCCESS],
+        [Symbols.SUCCESS, Symbols.ADVANTAGE],
+        [Symbols.ADVANTAGE, Symbols.ADVANTAGE],
+        [Symbols.ADVANTAGE]
+    ]
 }
 
 /**
  * Model for the base negative die, the purple eight-sided one.
  */
 export class DifficultyDie extends GenesysDie {
-    possibleResults: []
+    possibleResults = [
+        [],
+        [Symbols.FAILURE],
+        [Symbols.FAILURE, Symbols.FAILURE],
+        [Symbols.THREAT],
+        [Symbols.THREAT],
+        [Symbols.THREAT],
+        [Symbols.THREAT, Symbols.THREAT],
+        [Symbols.FAILURE, Symbols.THREAT]
+    ]
 }
 
 /**
  * Model for the upgraded negative die, the red twelve-sided one.
  */
 export class ChallengeDie extends GenesysDie {
-    possibleResults: []
+    possibleResults = [
+        [],
+        [Symbols.FAILURE],
+        [Symbols.FAILURE],
+        [Symbols.FAILURE, Symbols.FAILURE],
+        [Symbols.FAILURE, Symbols.FAILURE],
+        [Symbols.THREAT],
+        [Symbols.THREAT],
+        [Symbols.FAILURE, Symbols.THREAT],
+        [Symbols.FAILURE, Symbols.THREAT],
+        [Symbols.THREAT, Symbols.THREAT],
+        [Symbols.THREAT, Symbols.THREAT],
+        [Symbols.DESPAIR]
+    ]
 }
 
 /**
@@ -103,10 +144,10 @@ export class SetbackDie extends GenesysDie {
     possibleResults = [
         [],
         [],
-        [Symbols.THREAT],
-        [Symbols.THREAT],
         [Symbols.FAILURE],
-        [Symbols.FAILURE]
+        [Symbols.FAILURE],
+        [Symbols.THREAT],
+        [Symbols.THREAT]
     ]
 }
 
