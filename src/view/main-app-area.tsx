@@ -1,15 +1,15 @@
 import * as React from "react";
 import { startCase } from "lodash-es";
 
-import { AcceptedResults, Die, GenesysDie } from "src/model/dice";
+import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 
-import SymbolDisplay from "src/view/symbol-display";
+import DiceDisplay from "src/view/dice-display";
 
 type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback" | "percentile";
 const diceTypes: Readonly<diceTypes[]> = Object.freeze(["ability", "proficiency", "boost", "difficulty", "challenge", "setback"]);
 
-export default class DiceArea extends React.Component<any, { dice: Die<AcceptedResults>[], results: AcceptedResults[] }> {
+export default class MainAppArea extends React.Component<any, { dice: AllowedDice[], results: AllowedResults[] }> {
 
     constructor(props: any) {
         super(props);
@@ -19,7 +19,7 @@ export default class DiceArea extends React.Component<any, { dice: Die<AcceptedR
     addDie(type: diceTypes): void {
 
         const { dice, results } = this.state;
-        let newDie: Die<AcceptedResults>;
+        let newDie!: AllowedDice;
 
         switch (type) {
             case diceTypes[0]:
@@ -62,17 +62,13 @@ export default class DiceArea extends React.Component<any, { dice: Die<AcceptedR
         actionButtons.push(<button onClick={() => this.addDie("percentile")}>Add Percentile Dice</button>);
         actionButtons.push(<button onClick={() => this.roll()}>Roll the dice!</button>);
 
-        const diceNames = this.state.dice.map(die => <th>{startCase(die.constructor.name)}</th>);
-        const diceResults = this.state.results.map(result => {
+        const diceNames: JSX.Element[] = [],
+              diceResults: JSX.Element[] = [];
 
-            let res: JSX.Element | string;
-            if (typeof result === "number") {
-                res = result + "";
-            } else {
-                res = <SymbolDisplay symbol={result}/>;
-            }
-            return <td>{res}</td>;
-        });
+        for (let die of this.state.dice) {
+            diceNames.push(<th>{startCase(die.constructor.name)}</th>);
+            diceResults.push(<td><DiceDisplay die={die}/></td>);
+        }
 
         return <div className="dice-area">
             <table>

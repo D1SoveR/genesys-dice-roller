@@ -1,15 +1,15 @@
 import Symbols from "src/model/symbols";
 
-/**
- * Type used to describe all allowed dice roll results.
- */
-export type AcceptedResults = Symbols[] | number;
+/** Type used to describe all the dice currently handled by the app. */
+export type AllowedDice = GenesysDie | PercentileDie;
+/** Type used to describe all the dice results currently handled by the app. */
+export type AllowedResults = AllowedDice["currentResult"];
 
 /**
  * Base class for models representing all dice used in the app.
  * Shouldn't be used on its own, but creates base for all other dice.
  */
-export abstract class Die<ResultType extends AcceptedResults> {
+export abstract class Die<ResultType extends AllowedResults> {
 
     /**
      * Indicates what the result of the last roll was.
