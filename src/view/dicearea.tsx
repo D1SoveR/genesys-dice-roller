@@ -4,7 +4,7 @@ import { startCase } from "lodash-es";
 import { AcceptedResults, Die, GenesysDie } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 
-import DiceSymbol from "src/view/dice-symbol";
+import SymbolDisplay from "src/view/symbol-display";
 
 type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback" | "percentile";
 const diceTypes: Readonly<diceTypes[]> = Object.freeze(["ability", "proficiency", "boost", "difficulty", "challenge", "setback"]);
@@ -65,11 +65,11 @@ export default class DiceArea extends React.Component<any, { dice: Die<AcceptedR
         const diceNames = this.state.dice.map(die => <th>{startCase(die.constructor.name)}</th>);
         const diceResults = this.state.results.map(result => {
 
-            let res;
+            let res: JSX.Element | string;
             if (typeof result === "number") {
                 res = result + "";
             } else {
-                res = result.map(s => <DiceSymbol symbol={s}/>);
+                res = <SymbolDisplay symbol={result}/>;
             }
             return <td>{res}</td>;
         });
