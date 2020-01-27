@@ -5,6 +5,7 @@ import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 
 import DiceDisplay from "src/view/dice-display";
+import { orderDice } from "src/util/order";
 
 type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback" | "percentile";
 const diceTypes: Readonly<diceTypes[]> = Object.freeze(["ability", "proficiency", "boost", "difficulty", "challenge", "setback"]);
@@ -45,7 +46,7 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
                 break;
         }
 
-        this.setState({ results, dice: dice.concat([newDie])});
+        this.setState({ results, dice: dice.concat([newDie]).sort(orderDice)});
     }
 
     roll() {

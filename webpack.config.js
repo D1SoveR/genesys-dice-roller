@@ -34,69 +34,55 @@ configPartials.push({
 
 configPartials.push(function() {
 
+    const config = {
+        module: {
+            rules: [{
+                test: /\.(?:le|c)ss$/,
+                use: [{
+                    loader: "css-loader",
+                    options: { sourceMap: false }
+                }]
+            }, {
+                test: /\.less$/,
+                use: [{
+                    loader: "less-loader",
+                    options: {
+                        sourceMap: false,
+                        paths: [resolve(__dirname), resolve(__dirname, "node_modules")]
+                    }
+                }]
+            }]
+        },
+        resolve: {
+            extensions: [".less", ".css"]
+        }
+    };
+
     if (isProduction) {
 
         const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-        return {
-            module: {
-                rules: [{
-                    test: /\.(?:le|c)ss$/,
-                    use: [MiniCssExtractPlugin.loader, {
-                        loader: "css-loader",
-                        options: { sourceMap: false }
-                    }]
-                }, {
-                    test: /\.less$/,
-                    use: [{
-                        loader: "less-loader",
-                        options: { sourceMap: false }
-                    }]
-                }]
-            },
-            resolve: {
-                extensions: [".less", ".css"]
-            },
-            plugins: [new MiniCssExtractPlugin({
-                filename: "styles-[contenthash].css"
-            })]
-        };
+        config.module.rules[0].use.unshift(MiniCssExtractPlugin.loader);
+        config.plugins = [new MiniCssExtractPlugin({ filename: "styles-[contenthash].css" })];
 
     } else {
 
-        return {
-            module: {
-                rules: [{
-                    test: /\.(?:le|c)ss$/,
-                    use: ["style-loader", {
-                        loader: "css-loader",
-                        options: { sourceMap: true }
-                    }]
-                }, {
-                    test: /\.less$/,
-                    use: [{
-                        loader: "less-loader",
-                        options: { sourceMap: true }
-                    }]
-                }]
-            },
-            resolve: {
-                extensions: [".less", ".css"]
-            },
-            optimization: {
-                splitChunks: {
-                    cacheGroups: {
-                        styling: {
-                            name: "styling",
-                            test: /\.(?:le|c)ss$/,
-                            priority: -5
-                        }
+        config.module.rules.forEach(rule => rule.use[0].options.sourceMap = true);
+        config.module.rules[0].use.unshift("style-loader");
+        config.optimization = {
+            splitChunks: {
+                cacheGroups: {
+                    styling: {
+                        name: "styling",
+                        test: /\.(?:le|c)ss$/,
+                        priority: -5
                     }
                 }
             }
         };
 
     }
+
+    return config;
 
 }());
 

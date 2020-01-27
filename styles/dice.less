@@ -1,0 +1,76 @@
+td { vertical-align: top; }
+
+.dieCommon() {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+
+    .dice-symbol { display: block; position: relative; }
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    &.boost { background-image: data-uri("assets/dice/boost.svg"); }
+    &.ability { background-image: data-uri("assets/dice/ability.svg"); }
+    &.proficiency { background-image: data-uri("assets/dice/proficiency.svg"); }
+    &.setback { background-image: data-uri("assets/dice/setback.svg"); }
+    &.difficulty { background-image: data-uri("assets/dice/difficulty.svg"); }
+    &.challenge { background-image: data-uri("assets/dice/challenge.svg"); }
+
+    color: black;
+    &.setback { color: white; }
+
+}
+.dieStyle(@dimensions) {
+
+    width: @dimensions;
+    height: @dimensions;
+
+    &.ability, &.difficulty, &.proficiency, &.challenge { flex-direction: column; }
+
+    &.boost, &.setback {
+        .dice-symbol:first-child:last-child { font-size: @dimensions * 0.7; }
+    }
+    &.boost {
+        .dice-symbol:first-child:nth-last-child(2),
+        .dice-symbol:first-child:nth-last-child(2) ~ .dice-symbol {
+            font-size: @dimensions * 0.4;
+        }
+        .dice-symbol:first-child:nth-last-child(2) {
+            top: -(@dimensions / 8);
+            left: (@dimensions / 16);
+        }
+        .dice-symbol:last-child:nth-child(2) {
+            top: (@dimensions / 8);
+            left: -(@dimensions / 16);
+        }
+    }
+
+    &.ability, &.difficulty {
+        .dice-symbol:first-child:last-child { font-size: @dimensions * 0.5; top: -(@dimensions / 24); }
+        .dice-symbol:first-child:nth-last-child(2),
+        .dice-symbol:first-child:nth-last-child(2) ~ .dice-symbol {
+            top: -(@dimensions / 24);
+            font-size: @dimensions * 0.3;
+            line-height: @dimensions * 0.25;
+        }
+    }
+
+    &.proficiency, &.challenge {
+        .dice-symbol:first-child:last-child { font-size: @dimensions * 0.3; top: (@dimensions / 32); }
+        .dice-symbol:first-child:nth-last-child(2),
+        .dice-symbol:first-child:nth-last-child(2) ~ .dice-symbol {
+            font-size: @dimensions * 0.25;
+            line-height: @dimensions * 0.2;
+        }
+    }
+
+}
+
+.die {
+    .dieCommon();
+    .dieStyle(60px);
+}
