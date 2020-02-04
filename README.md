@@ -6,7 +6,7 @@ It's aimed at
 
 ## Usage
 
-To use it, simply open your mobile web browser and navigate to [https://d1sover.github.io/genesys-dice-roller/].
+To use it, simply open your mobile web browser and navigate to https://d1sover.github.io/genesys-dice-roller/.
 
 ## Roadmap
 
