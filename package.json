@@ -1,7 +1,7 @@
 {
   "name": "genesys-dice-roller",
   "description": "Easy-to-use web application for rollimng dice in Genesys RPG system by Fantasy Flight Games. Specifically designed for intuitive use on mobile devices.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "GPL-3.0-or-later",
   "keywords": [
     "genesys",
@@ -12,6 +12,12 @@
       "name": "Mikołaj \"D1SoveR\" Banasik",
       "email": "d1sover@gmail.com",
       "web": "https://github.com/D1SoveR"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/D1SoveR/genesys-dice-roller.git"
     }
   ],
   "scripts": {
