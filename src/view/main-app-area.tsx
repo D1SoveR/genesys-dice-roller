@@ -5,6 +5,7 @@ import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 
 import DiceList from "src/view/dice-list";
+import RollResults from "src/view/roll-results";
 import { orderDice } from "src/util/order";
 
 type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback" | "percentile";
@@ -66,6 +67,7 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
         return <div className="dice-area">
             <DiceList dice={this.state.dice}/>
             <div className="actions">{actionButtons}</div>
+            <RollResults results={this.state.results}/>
         </div>;
     }
 
