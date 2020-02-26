@@ -4,7 +4,7 @@ import { startCase } from "lodash-es";
 import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 
-import DiceDisplay from "src/view/dice-display";
+import DiceList from "src/view/dice-list";
 import { orderDice } from "src/util/order";
 
 type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback" | "percentile";
@@ -63,19 +63,8 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
         actionButtons.push(<button onClick={() => this.addDie("percentile")}>Add Percentile Dice</button>);
         actionButtons.push(<button onClick={() => this.roll()}>Roll the dice!</button>);
 
-        const diceNames: JSX.Element[] = [],
-              diceResults: JSX.Element[] = [];
-
-        for (let die of this.state.dice) {
-            diceNames.push(<th>{startCase(die.constructor.name)}</th>);
-            diceResults.push(<td><DiceDisplay die={die}/></td>);
-        }
-
         return <div className="dice-area">
-            <table>
-                <thead><tr>{diceNames}</tr></thead>
-                <tbody><tr>{diceResults}</tr></tbody>
-            </table>
+            <DiceList dice={this.state.dice}/>
             <div className="actions">{actionButtons}</div>
         </div>;
     }

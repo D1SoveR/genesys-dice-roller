@@ -10,9 +10,9 @@ import SymbolDisplay from "src/view/symbol-display";
  */
 function convertDieResult(result: AllowedResults): string | JSX.Element[] {
     if (result === null) {
-        return "?";
+        return [<span>?</span>];
     } else if (typeof result === "number") {
-        return result + "";
+        return [<span>{result + ""}</span>];
     }
     return result.map((s, i) => <SymbolDisplay symbol={s} key={i} />);
 }

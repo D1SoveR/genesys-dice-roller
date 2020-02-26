@@ -1,0 +1,19 @@
+@import "./dice";
+
+.dice-list {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    padding: 20px;
+
+    .die {
+        flex: 0 0 auto;
+        margin: 8px;
+
+        .dieStyles();
+        .dieDimensions(60px);
+    }
+}

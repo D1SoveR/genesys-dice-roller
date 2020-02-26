@@ -157,6 +157,7 @@ export class SetbackDie extends GenesysDie {
  */
 export class PercentileDie extends Die<number> {
     roll() {
-        return Math.ceil(Math.random() * 100);
+        this.currentResult = Math.ceil(Math.random() * 100);
+        return this.currentResult;
     }
 }
