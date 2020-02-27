@@ -2,7 +2,7 @@ import * as React from "react";
 import { flatten, isArray } from "lodash-es";
 import Result from "src/model/result";
 import Symbols from "src/model/symbols";
-import SymbolDisplay from "src/view/symbol-display";
+import SymbolDisplay from "src/view/display/symbol";
 import { adjudicateRoll, removeOpposingSymbols } from "src/util/adjudicate";
 import { orderSymbols } from "src/util/order";
 import { AllowedResults } from "src/model/dice";

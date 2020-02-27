@@ -62,11 +62,11 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
 
         const actionButtons = diceTypes.map(diceType => <button onClick={() => this.addDie(diceType)}>{startCase(`add ${diceType} die`)}</button>);
         actionButtons.push(<button onClick={() => this.addDie("percentile")}>Add Percentile Dice</button>);
-        actionButtons.push(<button onClick={() => this.roll()}>Roll the dice!</button>);
 
         return <div className="dice-area">
-            <DiceList dice={this.state.dice}/>
             <div className="actions">{actionButtons}</div>
+            <DiceList dice={this.state.dice}/>
+            <button onClick={() => this.roll()}>Roll the dice!</button>
             <RollResults results={this.state.results}/>
         </div>;
     }

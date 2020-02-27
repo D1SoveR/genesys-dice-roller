@@ -1,7 +1,7 @@
 import * as React from "react";
 import { startCase } from "lodash-es";
 import { AllowedDice, AllowedResults } from "src/model/dice";
-import SymbolDisplay from "src/view/symbol-display";
+import SymbolDisplay from "src/view/display/symbol";
 
 /**
  * Converts result of the die roll (or the lack of thereof) into something

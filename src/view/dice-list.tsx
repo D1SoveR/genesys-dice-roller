@@ -1,5 +1,5 @@
 import * as React from "react";
-import DiceDisplay from "src/view/dice-display";
+import DiceDisplay from "src/view/display/dice";
 import { AllowedDice } from "src/model/dice";
 
 /**
