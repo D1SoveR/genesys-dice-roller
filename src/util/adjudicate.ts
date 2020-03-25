@@ -1,27 +1,23 @@
+import { countBy } from "lodash-es";
 import Result from "src/model/result";
 import Symbols from "src/model/symbols";
 
-function countSymbols(symbols: Symbols[]): { [key in Symbols]: number } {
-    const counts = {
-        [Symbols.TRIUMPH]: 0,
-        [Symbols.SUCCESS]: 0,
-        [Symbols.ADVANTAGE]: 0,
-        [Symbols.DESPAIR]: 0,
-        [Symbols.FAILURE]: 0,
-        [Symbols.THREAT]: 0
-    };
-    symbols.forEach(item => counts[item]++);
-    return counts;
-}
-
+/**
+ * Method used to resolve part of the roll where successes and failures /
+ * advantages and threats cancel each other out. Given list of symbols,
+ * cancels them out and returns the list with only the remaining symbols.
+ *
+ * @param symbols  List of symbols rolled
+ * @returns        List with symbols remaining after cancelling results out
+ */
 export function removeOpposingSymbols(symbols: Symbols[]): Symbols[] {
 
     // Make the first pass by counting all the symbols
-    const remove = countSymbols(symbols);
+    const remove = countBy(symbols);
 
-    // Bring counters for triumphs/despairs to zero, they never cancel each other out
-    remove[Symbols.TRIUMPH] = 0;
-    remove[Symbols.DESPAIR] = 0;
+    // Delete counts for triumphs and despairs, as these never cancel each other out
+    delete remove[Symbols.TRIUMPH];
+    delete remove[Symbols.DESPAIR];
 
     // Use the counts and mark the smaller number of symbols for removal
     remove[Symbols.SUCCESS] = remove[Symbols.FAILURE] = Math.min(remove[Symbols.SUCCESS], remove[Symbols.FAILURE]);
@@ -39,9 +35,16 @@ export function removeOpposingSymbols(symbols: Symbols[]): Symbols[] {
     return remainingSymbols;
 }
 
+/**
+ * Resolves the roll; given the list of results rolled, counts them up,
+ * and returns whether the roll was successful or failed.
+ *
+ * @param symbols  Lisf of symbols rolled
+ * @results        Whether the roll was successful or failed
+ */
 export function adjudicateRoll(symbols: Symbols[]): Result {
 
-    const counts = countSymbols(symbols),
+    const counts = countBy(symbols),
           countSuccess = counts[Symbols.TRIUMPH] + counts[Symbols.SUCCESS],
           countFailure = counts[Symbols.DESPAIR] + counts[Symbols.FAILURE];
 
