@@ -1,0 +1,46 @@
+@width-min: 360px;
+@width-max: 600px;
+@height-min: 600px;
+@height-max: 900px;
+
+html, body, #app {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+#app {
+    margin: @padding;
+}
+
+#app > * { flex: 0 0 auto; }
+#app > .dice-area { flex-grow: 1; }
+
+.dice-area {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        background: pink;
+        margin: @padding 0 0;
+
+        flex: 0 0 auto;
+    }
+    > .dice-list { flex-grow: 1; }
+
+    .actions {
+        display: flex;
+        button {
+            flex: 1 0 auto;
+            &.roll { flex-grow: 3; }
+            &.clear { flex-grow: 1; }
+            &:last-child { margin-left: @padding; }
+        }
+    }
+}
