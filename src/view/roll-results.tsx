@@ -28,7 +28,9 @@ const RollResults: React.SFC<{ results: AllowedResults[] }> = ({ results }) => {
     if (resultsSymbols.length) {
         const flatRoll = removeOpposingSymbols(flatten(resultsSymbols)).sort(orderSymbols);
         status = adjudicateRoll(flatRoll);
-        elements.push(<div className="group symbolic">{flatRoll.map(s => <SymbolDisplay symbol={s}/>)}</div>);
+        if (flatRoll.length) {
+            elements.push(<div className={`group symbolic ${flatRoll.length > 8 ? "large" : ""}`}>{flatRoll.map(s => <SymbolDisplay symbol={s}/>)}</div>);
+        }
     }
 
     elements.push(...resultsNumbers.map(score => <div className="group numeric">{score}</div>));

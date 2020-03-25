@@ -9,13 +9,15 @@
     align-items: flex-start;
     align-content: flex-start;
 
-    padding: 1em;
+    padding: 0.5em;
 
     .die {
         flex: 0 0 auto;
         margin: 0.5em;
 
         .dieStyles();
-        .dieDimensions(60px);
+        @media (max-height: 639px) { .dieDimensions(50px); }
+        @media (min-height: 640px) { .dieDimensions(60px); }
+        
     }
 }

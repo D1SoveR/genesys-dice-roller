@@ -45,8 +45,10 @@ export function removeOpposingSymbols(symbols: Symbols[]): Symbols[] {
 export function adjudicateRoll(symbols: Symbols[]): Result {
 
     const counts = countBy(symbols),
-          countSuccess = counts[Symbols.TRIUMPH] + counts[Symbols.SUCCESS],
-          countFailure = counts[Symbols.DESPAIR] + counts[Symbols.FAILURE];
+          countSuccess = (counts[Symbols.TRIUMPH] || 0) + (counts[Symbols.SUCCESS] || 0),
+          countFailure = (counts[Symbols.DESPAIR] || 0) + (counts[Symbols.FAILURE] || 0);
+
+    console.warn("COUNT: ", counts);
 
     return (countSuccess - countFailure > 0) ? Result.SUCCESS : Result.FAILURE;
 }

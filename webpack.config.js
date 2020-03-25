@@ -208,6 +208,7 @@ configPartials.push({
 
 isDevServer && configPartials.push({
     devServer: {
+        host: "0.0.0.0",
         compress: true,
         contentBase: resolve(__dirname, "assets"),
         publicPath: "/",
