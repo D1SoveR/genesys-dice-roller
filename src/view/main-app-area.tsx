@@ -4,6 +4,7 @@ import { startCase } from "lodash-es";
 import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
 
+import DiceControls from "src/view/dice-controls";
 import DiceList from "src/view/dice-list";
 import RollResults from "src/view/roll-results";
 import { orderDice } from "src/util/order";
@@ -16,38 +17,19 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
     constructor(props: any) {
         super(props);
         this.state = { dice: [], results: [] };
+
+        this.addDie = this.addDie.bind(this);
+        this.clearDice = this.clearDice.bind(this);
+        this.roll = this.roll.bind(this);
     }
 
-    addDie(type: diceTypes): void {
-
+    addDie(newDie: AllowedDice): void {
         const { dice, results } = this.state;
-        let newDie!: AllowedDice;
-
-        switch (type) {
-            case diceTypes[0]:
-                newDie = new AbilityDie();
-                break;
-            case diceTypes[1]:
-                newDie = new ProficiencyDie();
-                break;
-            case diceTypes[2]:
-                newDie = new BoostDie();
-                break;
-            case diceTypes[3]:
-                newDie = new DifficultyDie();
-                break;
-            case diceTypes[4]:
-                newDie = new ChallengeDie();
-                break;
-            case diceTypes[5]:
-                newDie = new SetbackDie();
-                break;
-            case "percentile":
-                newDie = new PercentileDie();
-                break;
-        }
-
         this.setState({ results, dice: dice.concat([newDie]).sort(orderDice)});
+    }
+
+    clearDice(): void {
+        this.setState({ results: [], dice: [] });
     }
 
     roll() {
@@ -59,14 +41,13 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
     }
 
     render() {
-
-        const actionButtons = diceTypes.map(diceType => <button onClick={() => this.addDie(diceType)}>{startCase(`add ${diceType} die`)}</button>);
-        actionButtons.push(<button onClick={() => this.addDie("percentile")}>Add Percentile Dice</button>);
-
         return <div className="dice-area">
-            <div className="actions">{actionButtons}</div>
+            <DiceControls
+                addDiceCallback={this.addDie}
+                clearCallback={this.clearDice}
+            />
             <DiceList dice={this.state.dice}/>
-            <button onClick={() => this.roll()}>Roll the dice!</button>
+            <button onClick={this.roll}>Roll</button>
             <RollResults results={this.state.results}/>
         </div>;
     }
