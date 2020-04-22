@@ -1,6 +1,0 @@
-<?xml version="1.0" standalone="no"?>
-<svg width="120" height="120" viewBox="-2 -2 124 124" version="1.1" stroke="black" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="60,0 120,28.46 120,91.54 60,120 0,91.54 0,28.46" fill="#ffe800" stroke-width="4" />
-    <polygon points="60,100 20,40 100,40" fill="white" fill-opacity="0.15" />
-    <path d="M 60 100 L 120 91.54 L 100 40 L 120 28.46 M 100 40 L 60 0 L 20 40 L 0 28.46 M 20 40 L 0 91.54 L 60 100 L 60 120" fill="transparent" />
-</svg>
