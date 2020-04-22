@@ -1,5 +1,27 @@
+@import "./dice";
+
+.dice-controls {
+
+    display: flex;
+    flex-wrap: wrap;
+
+    button {
+        flex: 0 0 (100% / 7);
+        padding: @padding / 2 0;
+    }
+    .die {
+        margin: 0 auto;
+        .dieDimensions(@padding * 2);
+    }
+}
+
 .dice-area .actions {
+    display: flex;
     button {
         height: @padding * 3;
+        flex: 1 0 auto;
+        &#roll { flex-grow: 3; }
+        &#clear { flex-grow: 1; }
+        &:last-child { margin-left: @padding; }
     }
 }

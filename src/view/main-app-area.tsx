@@ -45,8 +45,8 @@ export default class MainAppArea extends React.Component<any, { dice: AllowedDic
             <DiceControls callback={this.addDie}/>
             <DiceList dice={this.state.dice}/>
             <div className="actions">
-                <button className="roll" onClick={this.roll}>Roll</button>
-                <button className="clear" onClick={this.clearDice}>Clear</button>
+                <button id="roll" onClick={this.roll}>Roll</button>
+                <button id="clear" onClick={this.clearDice}>Clear</button>
             </div>
             <RollResults results={this.state.results}/>
         </div>;

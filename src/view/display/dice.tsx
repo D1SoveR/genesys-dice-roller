@@ -8,7 +8,7 @@ import SymbolDisplay from "src/view/display/symbol";
  * human-readable; pending mark for no rolls, symbols for regular Genesys dice,
  * and the number for percentile die.
  */
-function convertDieResult(result: AllowedResults): string | JSX.Element[] {
+function convertDieResult(result: AllowedResults): JSX.Element[] {
     if (result === null) {
         return [<span>?</span>];
     } else if (typeof result === "number") {

@@ -3,20 +3,18 @@
 @height-min: 600px;
 @height-max: 900px;
 
-html, body, #app {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-}
-
-html {
+html, body {
     width: 100%;
     height: 100%;
     align-items: center;
     justify-content: center;
 }
 #app {
-    margin: @padding;
+    height: 100%;
+    display: flex;
+    padding: @padding;
+    flex-direction: column;
+    flex: 1 1 auto;
 }
 
 #app > * { flex: 0 0 auto; }
@@ -26,21 +24,6 @@ html {
     display: flex;
     flex-direction: column;
 
-    > * {
-        background: pink;
-        margin: @padding 0 0;
-
-        flex: 0 0 auto;
-    }
+    > * { flex: 0 0 auto; margin: @padding 0 0; }
     > .dice-list { flex-grow: 1; }
-
-    .actions {
-        display: flex;
-        button {
-            flex: 1 0 auto;
-            &.roll { flex-grow: 3; }
-            &.clear { flex-grow: 1; }
-            &:last-child { margin-left: @padding; }
-        }
-    }
 }
