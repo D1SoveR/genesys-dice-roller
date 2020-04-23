@@ -58,15 +58,12 @@ configPartials.push(function() {
         }
     };
 
-    if (isProduction) {
-
-        const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-        config.module.rules[0].use.unshift(MiniCssExtractPlugin.loader);
-        config.plugins = [new MiniCssExtractPlugin({ filename: "styles-[contenthash].css" })];
-
-    } else {
-
+    // Enable source maps for dev builds and server
+    if (!isProduction) {
         config.module.rules.forEach(rule => rule.use[0].options.sourceMap = true);
+    }
+
+    if (isDevServer) {
         config.module.rules[0].use.unshift("style-loader");
         config.optimization = {
             splitChunks: {
@@ -79,7 +76,26 @@ configPartials.push(function() {
                 }
             }
         };
+    } else {
+        const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+        config.module.rules[0].use.unshift(MiniCssExtractPlugin.loader);
+        config.plugins = [new MiniCssExtractPlugin({ filename: `styles${isProduction ? "-[contenthash]" : ""}.css` })];
+    }
 
+    if (isProduction) {
+
+        const TerserJSPlugin = require("terser-webpack-plugin"),
+              OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
+        config.optimization = config.optimization || {};
+        config.optimization.minimizer = [
+            new TerserJSPlugin({}),
+            new OptimizeCSSAssetsPlugin({
+                cssProcessorPluginOptions: {
+                    preset: ["default", { discardComments: { removeAll: true } }]
+                }
+            })
+        ];
     }
 
     return config;
