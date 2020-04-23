@@ -1,4 +1,5 @@
-const { resolve } = require("path"),
+const { readFileSync } = require("fs"),
+      { resolve } = require("path"),
       { startCase } = require("lodash"),
       Package = require("./package.json");
 
@@ -30,6 +31,12 @@ configPartials.push({
 
 /* STYLING HANDLING
  * ================
+ * This bit of configuration sets up handling of CSS and LESS within Webpack.
+ * LESS is processed into CSS with less-loader, CSS is processed into JS chunks
+ * with css-loader, then the magic begins.
+ * When running in dev server, style-loader is used to load the styles into tags,
+ * and to enable HMR for rapid styling development. Otherwise, the styles are pulled
+ * into separate CSS file for quicker loading in deployment.
  */
 
 configPartials.push(function() {
@@ -82,22 +89,6 @@ configPartials.push(function() {
         config.plugins = [new MiniCssExtractPlugin({ filename: `styles${isProduction ? "-[contenthash]" : ""}.css` })];
     }
 
-    if (isProduction) {
-
-        const TerserJSPlugin = require("terser-webpack-plugin"),
-              OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
-        config.optimization = config.optimization || {};
-        config.optimization.minimizer = [
-            new TerserJSPlugin({}),
-            new OptimizeCSSAssetsPlugin({
-                cssProcessorPluginOptions: {
-                    preset: ["default", { discardComments: { removeAll: true } }]
-                }
-            })
-        ];
-    }
-
     return config;
 
 }());
@@ -145,9 +136,10 @@ configPartials.push(function() {
                  */
                 templateParameters: (compilation, assets) => {
 
-                    // We start with our external React scripts
                     const files = {};
 
+                    // We set up arrays of all the Javascript and CSS files,
+                    // optionally adding their SRI hashes to then use when generating index file
                     [
                         ["js", reactScripts],
                         ["css", []]
@@ -190,6 +182,52 @@ configPartials.push(function() {
     }
 
     return config;
+
+}());
+
+/* MINIFICATION
+ * ============
+ * This configuration bit sets up both JavaScript and CSS minifiers when building for production.
+ * As there's some custom setup required (for example ensuring that dice class names don't get mangled),
+ * JS minifier is defined explicitly along with the CSS one, as per webpack documentation.
+ * When running in development, this entire section is skipped.
+ */
+configPartials.push(function() {
+
+    if (!isProduction) {
+        return {};
+    }
+
+    // In couple of places, we rely on actual class names in the code;
+    // ensure that those are preserved in the minification process.
+    const reserved = [];
+
+    // Following bit ensures that class names for dice classes are retained;
+    // they're used in some parts of the interface code to automatically
+    // apply correct styling.
+    reserved.push(...readFileSync(resolve(__dirname, "src/model/dice.ts"), "utf8")
+        .match(/(?<=\bexport class )[a-zA-Z]+Die\b/g));
+
+    const TerserJSPlugin = require("terser-webpack-plugin"),
+          OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
+    return {
+        optimization: {
+            minimizer: [
+                new TerserJSPlugin({
+                    terserOptions: {
+                        mangle: { reserved },
+                        compress: { keep_classnames: true }
+                    }
+                }),
+                new OptimizeCSSAssetsPlugin({
+                    cssProcessorPluginOptions: {
+                        preset: ["default", { discardComments: { removeAll: true } }]
+                    }
+                })
+            ]
+        }
+    };
 
 }());
 
