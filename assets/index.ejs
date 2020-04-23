@@ -12,6 +12,12 @@
         const originBit = securityBit && !!url.match(/^https?/) ? ` crossorigin="anonymous"` : "";
         %><script type="application/javascript" src="<%= url %>" defer<%= securityBit %><%= originBit %>></script>
         <% }); %>
+        <!-- CSS payload -->
+        <% files.css.forEach(({ url, sri }) => {
+        const securityBit = sri ? ` integrity="${sri}"` : "";
+        const originBit = securityBit && !!url.match(/^https?/) ? ` crossorigin="anonymous"` : "";
+        %><link rel="stylesheet" href="<%= url %>"<%= securityBit %><%= originBit %>>
+        <% }); %>
     </head>
     <body>
         <div id="app">

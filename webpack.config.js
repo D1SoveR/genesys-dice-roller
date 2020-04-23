@@ -130,15 +130,24 @@ configPartials.push(function() {
                 templateParameters: (compilation, assets) => {
 
                     // We start with our external React scripts
-                    const js = reactScripts;
-                    for (let i = 0; i < assets.js.length; i++) {
-                        const temp = { url: assets.js[i] };
-                        // If webpack-subresource-integrity is loaded, add generated SRIs as well
-                        if (assets.jsIntegrity && assets.jsIntegrity[i]) {
-                            temp.sri = assets.jsIntegrity[i];
+                    const files = {};
+
+                    [
+                        ["js", reactScripts],
+                        ["css", []]
+                    ].forEach(([key, list]) => {
+
+                        for (let i = 0; i < assets[key].length; i++) {
+                            const temp = { url: assets[key][i] };
+                            // If webpack-subresource-integrity is loaded, add generated SRIs as well
+                            if (assets[`${key}Integrity`] && assets[`${key}Integrity`][i]) {
+                                temp.sri = assets[`${key}Integrity`][i];
+                            }
+                            list.push(temp);
                         }
-                        js.push(temp);
-                    }
+
+                        files[key] = list;
+                    });
 
                     return {
                         meta: {
@@ -146,7 +155,7 @@ configPartials.push(function() {
                             description: Package.description,
                             author: Package.maintainers[0].name
                         },
-                        files: { js }
+                        files
                     }
 
                 }
