@@ -1,0 +1,279 @@
+/*! common_reset.css v0.0.6 20190519 | MIT License | github.com/kamaslau/common_reset */
+
+/**
+ * general
+ */
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/**
+ * container
+ */
+
+/**
+ * form
+ */
+form * {
+    border-width: 1px; /* restore necessary border */
+}
+
+/**
+ * link
+ */
+a {
+    text-decoration: none;
+}
+
+/**
+ * list
+ */
+ol, ul {
+    list-style: none;
+}
+
+/**
+ * object
+ */
+audio, embed, iframe, img, object, video {
+    height: auto;
+    max-width: 100%;
+}
+
+/**
+ * quote
+ */
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: none;
+}
+
+/**
+ * table
+ */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table * {
+    border-width: 1px; /* restore necessary border */
+}
+
+/**
+ * misc
+ */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+p {
+    hyphens: auto; /* so you don't need manual &shy; */
+}
+
+html {
+  font: normal 16px sans-serif;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+#app {
+  height: 100%;
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+#app > * {
+  flex: 0 0 auto;
+}
+#app > .dice-area {
+  flex-grow: 1;
+}
+.dice-area {
+  display: flex;
+  flex-direction: column;
+}
+.dice-area > * {
+  flex: 0 0 auto;
+  margin: 16px 0 0;
+}
+.dice-area > .dice-list {
+  flex-grow: 1;
+}
+.die {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  color: black;
+}
+.die > * {
+  display: block;
+  position: relative;
+}
+.die::before {
+  content: '';
+  display: block;
+  position: absolute;
+  transform: rotate(45deg);
+}
+.die.boost::before {
+  background: #84d4e1;
+}
+.die.ability::before {
+  background: #46AC4E;
+}
+.die.proficiency::before {
+  background: #ffe800;
+}
+.die.setback::before {
+  background: black;
+}
+.die.difficulty::before {
+  background: #6c2a84;
+}
+.die.challenge::before {
+  background: #7d1821;
+}
+.die.percentile::before {
+  background: grey;
+}
+.die.setback {
+  color: white;
+}
+.dice-controls {
+  display: flex;
+  flex-wrap: wrap;
+}
+.dice-controls button {
+  flex: 0 0 14.28571429%;
+  padding: 8px 0;
+}
+.dice-controls .die {
+  margin: 0 auto;
+  width: 32px;
+  height: 32px;
+}
+.dice-controls .die::before {
+  top: 4.6862915px;
+  left: 4.6862915px;
+  width: 22.627417px;
+  height: 22.627417px;
+}
+.dice-controls .die .dice-symbol {
+  font-size: 9.6px;
+}
+.dice-controls .die .dice-symbol:first-child:last-child {
+  font-size: 14.4px;
+}
+.dice-area .actions {
+  display: flex;
+}
+.dice-area .actions button {
+  height: 48px;
+  flex: 1 0 auto;
+}
+.dice-area .actions button#roll {
+  flex-grow: 3;
+}
+.dice-area .actions button#clear {
+  flex-grow: 1;
+}
+.dice-area .actions button:last-child {
+  margin-left: 16px;
+}
+.dice-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 0.5em;
+}
+.dice-list .die {
+  flex: 0 0 auto;
+  margin: 0.5em;
+}
+@media (max-height: 639px) {
+  .dice-list .die {
+    width: 50px;
+    height: 50px;
+  }
+  .dice-list .die::before {
+    top: 7.32233047px;
+    left: 7.32233047px;
+    width: 35.35533906px;
+    height: 35.35533906px;
+  }
+  .dice-list .die .dice-symbol {
+    font-size: 15px;
+  }
+  .dice-list .die .dice-symbol:first-child:last-child {
+    font-size: 22.5px;
+  }
+}
+@media (min-height: 640px) {
+  .dice-list .die {
+    width: 60px;
+    height: 60px;
+  }
+  .dice-list .die::before {
+    top: 8.78679656px;
+    left: 8.78679656px;
+    width: 42.42640687px;
+    height: 42.42640687px;
+  }
+  .dice-list .die .dice-symbol {
+    font-size: 18px;
+  }
+  .dice-list .die .dice-symbol:first-child:last-child {
+    font-size: 27px;
+  }
+}
+@font-face {
+  font-family: "genesys-symbols";
+  font-weight: normal;
+  font-style: normal;
+  src: url("data:font/woff;base64,dmVyc2lvbiBodHRwczovL2dpdC1sZnMuZ2l0aHViLmNvbS9zcGVjL3YxCm9pZCBzaGEyNTY6OTY0NjIzODA3NWNlYTAxZTM0ODE5NDBlY2RhZTVkOTY3ZDNlMjEwYjQ0YzA1ZjRmMDlhMTZkZTc4Y2IwYjQ5YwpzaXplIDM0MDgK") format("woff");
+}
+.dice-symbol {
+  font-family: genesys-symbols !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+}
+.roll-results {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 16px;
+  min-height: 96px;
+}
+.roll-results .group {
+  margin: 8px;
+  font-size: 32px;
+  line-height: 32px;
+}
+.roll-results .group.large {
+  font-size: 19.2px;
+}
+
