@@ -1,0 +1,21 @@
+body& {
+    background: @background;
+}
+
+button {
+    color: @text;
+    background: @button;
+    &:hover, &:active {
+        background: @button-active;
+    }
+}
+
+.dice-list {
+    background: @dice-area;
+}
+
+.roll-results {
+    &.neutral { background: @results-neutral; }
+    &.success { background: @results-success; }
+    &.failure { background: @results-failure; }
+}
