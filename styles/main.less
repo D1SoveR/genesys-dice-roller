@@ -12,6 +12,24 @@ html {
 @import "./components/dice-symbols";
 @import "./components/roll-results";
 
+.light {
+
+    @text: #333;
+
+    @background: #D5D5D5;
+    @button: #E3E3E3;
+    @button-active: #FFF;
+
+    @dice-area: #EEE;
+
+    @results-neutral: @dice-area;
+    @results-success: #87CF78;
+    @results-failure: #C97067;
+
+    @import (multiple) "./theming";
+
+}
+
 .dark {
 
     @text: #EEE;
@@ -26,6 +44,6 @@ html {
     @results-success: #3d5e2f;
     @results-failure: #692422;
 
-    @import "./theming";
+    @import (multiple) "./theming";
 
 }
