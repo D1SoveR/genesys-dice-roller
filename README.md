@@ -19,5 +19,5 @@ To use it, simply open your mobile web browser and navigate to https://d1sover.g
   - [x] Automatic removal of opposing results and final state
 - [ ] Gestures for removing/rerolling the dice pool
 - [ ] Web application functionality (working offline)
-- [ ] Dark theme
+- [x] Dark theme
 - [ ] Setting dice to specific results
