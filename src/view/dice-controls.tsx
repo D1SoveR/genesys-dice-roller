@@ -15,21 +15,33 @@ const diceToCreate: ({ cls: typeof GenesysDie, result: GenesysDie["currentResult
 ];
 
 /**
- * This component is used in main app area to draw the list of all the dice to the pool.
+ * This component draws the collection of buttons that can be used to add new dice to the dice pool.
+ * Once rendered, it doesn't really change.
  */
-const DiceControls: React.SFC<{
-    callback: (die: AllowedDice) => void
-}> = ({ callback }) => {
+export default class DiceControls extends React.Component<{ callback: (die: AllowedDice) => void }> {
 
-    const additionButtons = diceToCreate.map(({ cls, result }, i) => {
+    /**
+     * Since the dice controls panel is fixed (the buttons won't change after initial render),
+     * we will block all the update requests after the initial render.
+     */
+    shouldComponentUpdate(): boolean {
+        return false;
+    }
 
-        const dieName = startCase(cls.name).split(" ")[0].toLowerCase();
+    /**
+     * Iterates over the list of all the dice we handle in the dice roller,
+     * along with default result to show (so that the dice are easily identifiable),
+     * and renders each of those in a button that adds a new die of that type whenever it's clicked.
+     */
+    render() {
 
-        return <button type="button" id={`add-${dieName}`} key={i} onClick={() => callback(new cls())}>
-            <DiceDisplay die={Object.assign(new cls(), { currentResult: result })} />
-        </button>;
-    });
+        const additionButtons = diceToCreate.map(({ cls, result }, i) => {
+            const dieName = startCase(cls.name).split(" ")[0].toLowerCase();
+            return <button type="button" id={`add-${dieName}`} key={i} onClick={() => this.props.callback(new cls())}>
+                <DiceDisplay die={Object.assign(new cls(), { currentResult: result })} />
+            </button>;
+        });
 
-    return <div className="dice-controls">{additionButtons}</div>;
+        return <div className="dice-controls">{additionButtons}</div>;
+    }
 }
-export default DiceControls;

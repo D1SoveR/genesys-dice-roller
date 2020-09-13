@@ -161,7 +161,11 @@ configPartials.push(function() {
                         meta: {
                             name: startCase(Package.name),
                             description: Package.description,
-                            author: Package.maintainers[0].name
+                            author: Package.maintainers[0].name,
+
+                            "og:title": startCase(Package.name),
+                            "og:description": Package.description,
+                            "og:type": "website"
                         },
                         files
                     }

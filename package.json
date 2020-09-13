@@ -1,6 +1,6 @@
 {
   "name": "genesys-dice-roller",
-  "description": "Easy-to-use web application for rolling dice in Genesys RPG system by Fantasy Flight Games. Specifically designed for intuitive use on mobile devices.",
+  "description": "Easy-to-use web application for rolling dice in Genesys RPG system by Fantasy Flight Games; designed for easy usage on smartphones.",
   "version": "0.0.2",
   "license": "GPL-3.0-or-later",
   "keywords": [

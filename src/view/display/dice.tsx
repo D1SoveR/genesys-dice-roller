@@ -22,7 +22,44 @@ function convertDieResult(result: AllowedResults): JSX.Element[] {
  * Given the die model instance, converts the roll result into something human-readable,
  * and draws it in an element styled to look like a die of relevant shape and colour.
  */
-const DiceDisplay: React.SFC<{ die: AllowedDice }> = ({ die }) => <div className={startCase(die.constructor.name).toLowerCase()}>
-    {convertDieResult(die.currentResult)}
-</div>;
-export default DiceDisplay;
+export default class DiceDisplay extends React.Component<{ die: AllowedDice }> implements EventListenerObject {
+
+    dieReference: React.RefObject<HTMLDivElement> = React.createRef();
+
+    render() {
+        return <div ref={this.dieReference} className={startCase(this.props.die.constructor.name).toLowerCase()}>
+            {convertDieResult(this.props.die.currentResult)}
+        </div>;
+    }
+
+    componentDidUpdate(): void {
+
+        // We only apply the shake animation when there's no preference for reduced motion,
+        // and when there's actual result on the dice ('cause that means there's something to roll).
+        if (
+            window.matchMedia("not (prefers-reduced-motion)").matches &&
+            this.props.die.currentResult !== null
+        ) {
+
+            const dieElement = this.dieReference.current!;
+            dieElement.addEventListener("animationend", this, false);
+
+            // If the die is still in the process of playing shake animation,
+            // restart it by removing the class and toggling reflow with bounding rect;
+            if (dieElement.classList.contains("shake")) {
+                dieElement.classList.remove("shake");
+                dieElement.getBoundingClientRect();
+            }
+
+            dieElement.classList.add("shake");
+        }
+    }
+
+    handleEvent(event: Event): void {
+        if (event.type === "animationend") {
+            const dieElement = this.dieReference.current!;
+            dieElement.removeEventListener("animationend", this, false);
+            dieElement.classList.remove("shake");
+        }
+    }
+}

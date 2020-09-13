@@ -29,6 +29,17 @@
     color: black;
     &.setback { color: white; }
 
+    @keyframes shake {
+        from { transform: translateZ(0) rotate(45deg); }
+        to { transform: translateZ(0) rotate(0); }
+    }
+
+    @media not (prefers-reduced-motion) {
+        transform: translateZ(0);
+        &.shake {
+            animation: 400ms cubic-bezier(.22,.74,.64,1.35) 0s 1 normal shake;
+        }
+    }
 }
 
 .dieDimensions(@dimensions) {
