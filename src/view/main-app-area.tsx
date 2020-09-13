@@ -1,5 +1,5 @@
 import * as React from "react";
-import { startCase } from "lodash-es";
+import { difference, startCase } from "lodash-es";
 
 import { AllowedDice, AllowedResults } from "src/model/dice";
 import { AbilityDie, ProficiencyDie, BoostDie, DifficultyDie, ChallengeDie, SetbackDie, PercentileDie } from "src/model/dice";
@@ -12,38 +12,73 @@ import { orderDice } from "src/util/order";
 type diceTypes = "ability" | "proficiency" | "boost" | "difficulty" | "challenge" | "setback" | "percentile";
 const diceTypes: Readonly<diceTypes[]> = Object.freeze(["ability", "proficiency", "boost", "difficulty", "challenge", "setback"]);
 
-export default class MainAppArea extends React.Component<any, { dice: AllowedDice[], results: AllowedResults[] }> {
+export default class MainAppArea extends React.Component<{}, { dice: AllowedDice[], selected: AllowedDice[], results: AllowedResults[] }> {
 
-    constructor(props: any) {
+    constructor(props: {}) {
         super(props);
-        this.state = { dice: [], results: [] };
+        this.state = { dice: [], selected: [], results: [] };
 
         this.addDie = this.addDie.bind(this);
         this.clearDice = this.clearDice.bind(this);
+        this.toggleSelection = this.toggleSelection.bind(this);
         this.roll = this.roll.bind(this);
     }
 
     addDie(newDie: AllowedDice): void {
-        const { dice, results } = this.state;
-        this.setState({ results, dice: dice.concat([newDie]).sort(orderDice)});
+        const { dice } = this.state;
+        this.setState({ ...this.state, dice: dice.concat([newDie]).sort(orderDice) });
     }
 
     clearDice(): void {
-        this.setState({ results: [], dice: [] });
+
+        const { dice, selected } = this.state;
+
+        if (selected.length) {
+
+            const remainingDice = difference(dice, selected);
+            this.setState({
+                dice: remainingDice,
+                selected: [],
+                results: remainingDice.map(die => die.currentResult)
+            });
+
+        } else {
+            this.setState({ dice: [], selected: [], results: [] });
+        }
+    }
+
+    toggleSelection(toggledDie: AllowedDice): void {
+
+        const { selected } = this.state;
+        if (selected.includes(toggledDie)) {
+            this.setState({ ...this.state, selected: selected.filter(die => die !== toggledDie) });
+        } else {
+            this.setState({ ...this.state, selected: selected.concat([toggledDie]) });
+        }
     }
 
     roll() {
-        const { dice } = this.state;
-        this.setState({
-            dice,
-            results: dice.map(die => die.roll())
-        });
+
+        const { dice, selected } = this.state;
+
+        if (selected.length) {
+
+            selected.forEach(die => die.roll());
+            this.setState({
+                dice,
+                selected: [],
+                results: dice.map(die => die.currentResult)
+            });
+
+        } else {
+            this.setState({ ...this.state, results: this.state.dice.map(die => die.roll()) });
+        }
     }
 
     render() {
         return <div className="dice-area">
             <DiceControls callback={this.addDie}/>
-            <DiceList dice={this.state.dice}/>
+            <DiceList dice={this.state.dice} selectCallback={this.toggleSelection} />
             <div className="actions">
                 <button id="roll" onClick={this.roll}>Roll</button>
                 <button id="clear" onClick={this.clearDice}>Clear</button>

@@ -16,17 +16,9 @@ const diceToCreate: ({ cls: typeof GenesysDie, result: GenesysDie["currentResult
 
 /**
  * This component draws the collection of buttons that can be used to add new dice to the dice pool.
- * Once rendered, it doesn't really change.
+ * Once rendered, it doesn't really change, so it extends PureComponent rather than Component.
  */
-export default class DiceControls extends React.Component<{ callback: (die: AllowedDice) => void }> {
-
-    /**
-     * Since the dice controls panel is fixed (the buttons won't change after initial render),
-     * we will block all the update requests after the initial render.
-     */
-    shouldComponentUpdate(): boolean {
-        return false;
-    }
+export default class DiceControls extends React.PureComponent<{ callback: (die: AllowedDice) => void }> {
 
     /**
      * Iterates over the list of all the dice we handle in the dice roller,
