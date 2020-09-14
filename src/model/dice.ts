@@ -19,6 +19,15 @@ export abstract class Die<ResultType extends AllowedResults> {
     currentResult: ResultType | null = null;
 
     /**
+     * Property that counts the number of times this die
+     * has been rolled. It's used primarily in rendering, to determine
+     * when the die has changed state by being rolled, as opposed to
+     * being selected, or moved in the list.
+     * Increases by one on every invocation of `.roll()`.
+     */
+    rollCount: number = 0;
+
+    /**
      * Rolls the die, selecting random result from the possible ones,
      * assigns it to current result and returns it.
      */
@@ -45,6 +54,7 @@ export abstract class GenesysDie extends Die<Symbols[]> {
      * assigns it to current result and returns it.
      */
     roll(): Symbols[] {
+        this.rollCount++;
         this.currentResult = this.possibleResults[Math.floor(Math.random() * this.possibleResults.length)];
         return this.currentResult;
     }
@@ -157,6 +167,7 @@ export class SetbackDie extends GenesysDie {
  */
 export class PercentileDie extends Die<number> {
     roll() {
+        this.rollCount++;
         this.currentResult = Math.ceil(Math.random() * 100);
         return this.currentResult;
     }

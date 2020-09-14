@@ -22,7 +22,12 @@ function convertDieResult(result: AllowedResults): JSX.Element[] {
  * Given the die model instance, converts the roll result into something human-readable,
  * and draws it in an element styled to look like a die of relevant shape and colour.
  */
-export default class DiceDisplay extends React.Component<{ die: AllowedDice, selected?: boolean, onClick?: (ev: any) => void }> implements EventListenerObject {
+export default class DiceDisplay extends React.Component<{
+    die: AllowedDice,
+    selected?: boolean,
+    rollCount?: number,
+    onClick?: (ev: any) => void
+}> implements EventListenerObject {
 
     dieReference: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -38,13 +43,21 @@ export default class DiceDisplay extends React.Component<{ die: AllowedDice, sel
         </div>;
     }
 
-    componentDidUpdate(): void {
+    shouldComponentUpdate(nextProps: this["props"]): boolean {
+        return (
+            this.props.die !== nextProps.die ||
+            this.props.selected !== nextProps.selected ||
+            this.props.rollCount !== nextProps.rollCount
+        );
+    }
+
+    componentDidUpdate(prevProps: this["props"]): void {
 
         // We only apply the shake animation when there's no preference for reduced motion,
         // and when there's actual result on the dice ('cause that means there's something to roll).
         if (
             window.matchMedia("not (prefers-reduced-motion)").matches &&
-            this.props.die.currentResult !== null
+            this.props.rollCount !== prevProps.rollCount
         ) {
 
             const dieElement = this.dieReference.current!;

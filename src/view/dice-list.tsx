@@ -15,7 +15,7 @@ export default class DiceList extends React.Component<{ dice: AllowedDice[], sel
                 () => this.props.selectCallback!(die) :
                 void 0;
 
-            return <DiceDisplay die={die} selected={this.props.selected.includes(die)} onClick={click} />;
+            return <DiceDisplay die={die} selected={this.props.selected.includes(die)} rollCount={die.rollCount} onClick={click} />;
         });
 
         return <div className="dice-list">{diceList}</div>;
