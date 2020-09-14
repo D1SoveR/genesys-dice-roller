@@ -9,8 +9,6 @@
           rimraf = require("rimraf");
 
     // Check if you have at least one argument given, as commit message
-    console.log(process.argv);
-    process.exit(0);
     if (process.argv.length < 3) {
         throw new Error("Need to provide commit message for deployment");
     }

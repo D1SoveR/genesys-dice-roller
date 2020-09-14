@@ -181,9 +181,9 @@ configPartials.push(function() {
     };
 
     // Only use SRI for generated files if building for production
-    if (isProduction) {
+    /*if (isProduction) {
         config.plugins.push(new (require("webpack-subresource-integrity"))({ hashFuncNames: ["sha256"] }));
-    }
+    }*/
 
     return config;
 
