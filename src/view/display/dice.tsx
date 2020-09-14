@@ -22,12 +22,18 @@ function convertDieResult(result: AllowedResults): JSX.Element[] {
  * Given the die model instance, converts the roll result into something human-readable,
  * and draws it in an element styled to look like a die of relevant shape and colour.
  */
-export default class DiceDisplay extends React.Component<{ die: AllowedDice, onClick?: (ev: any) => void }> implements EventListenerObject {
+export default class DiceDisplay extends React.Component<{ die: AllowedDice, selected?: boolean, onClick?: (ev: any) => void }> implements EventListenerObject {
 
     dieReference: React.RefObject<HTMLDivElement> = React.createRef();
 
     render() {
-        return <div ref={this.dieReference} className={startCase(this.props.die.constructor.name).toLowerCase()} onClick={this.props.onClick}>
+
+        let className: string = startCase(this.props.die.constructor.name).toLowerCase();
+        if (this.props.selected) {
+            className += " selected";
+        }
+
+        return <div ref={this.dieReference} className={className} onClick={this.props.onClick}>
             {convertDieResult(this.props.die.currentResult)}
         </div>;
     }
