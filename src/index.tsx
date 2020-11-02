@@ -27,7 +27,7 @@ class App extends React.Component<{ themeSettings: typeof Theme }> {
 
     render() {
         return <React.Fragment>
-            <h1 onClick={() => this.props.themeSettings.toggle()}>Genesys Dice Roller</h1>
+            <h1 onClick={() => this.props.themeSettings.toggle()}><span className="logo">Genesys</span> Dice Roller</h1>
             <MainAppArea/>
         </React.Fragment>;
     }
