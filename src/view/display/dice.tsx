@@ -56,7 +56,7 @@ export default class DiceDisplay extends React.Component<{
         // We only apply the shake animation when there's no preference for reduced motion,
         // and when there's actual result on the dice ('cause that means there's something to roll).
         if (
-            window.matchMedia("not (prefers-reduced-motion)").matches &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
             this.props.rollCount !== prevProps.rollCount
         ) {
 
