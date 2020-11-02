@@ -15,10 +15,15 @@ html, body {
     padding: @padding;
     flex-direction: column;
     flex: 1 1 auto;
-}
 
-#app > * { flex: 0 0 auto; }
-#app > .dice-area { flex-grow: 1; }
+    > h1 {
+        font-family: genesys-header;
+        font-size: 2.5rem;
+    }
+
+    > * { flex: 0 0 auto; }
+    > .dice-area { flex-grow: 1; }
+}
 
 .dice-area {
     display: flex;
