@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 
 import { Theme } from "src/model/settings";
 import MainAppArea from "src/view/main-app-area";
+import NavButton from "src/view/nav-button";
 
 class App extends React.Component<{ themeSettings: typeof Theme }> {
 
@@ -27,6 +28,7 @@ class App extends React.Component<{ themeSettings: typeof Theme }> {
 
     render() {
         return <React.Fragment>
+            <NavButton/>
             <h1 onClick={() => this.props.themeSettings.toggle()}><span className="logo">Genesys</span> Dice Roller</h1>
             <MainAppArea/>
         </React.Fragment>;
